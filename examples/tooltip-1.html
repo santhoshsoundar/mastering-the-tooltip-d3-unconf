@@ -13,7 +13,6 @@
 .container {
   margin-top: 1em;
   /* we need a container with position relative */
-  /* sample change */
   position: relative;
   border: 1px solid black;
 }
@@ -76,6 +75,10 @@ function mousemoved() {
 
   // now let's print x and y inside .tooltip
   // ...
+
+  const [x, y] = d3.mouse(svg.node())
+  console.log(x,y)
+  svg.select('.tooltip').text(`${x}, ${y}`)
 }
 
 </script>

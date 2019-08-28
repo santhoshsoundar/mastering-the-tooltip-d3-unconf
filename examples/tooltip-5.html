@@ -31,12 +31,24 @@
   padding: 6px 8px;
   font-size: 14px;
 }
-
+/* // adding zooming */
+/* a list based scubscriber strugle with scatterplot
+3% of reader go about resize */
 /* let's do this */
 /* tip: use flexbox */
 .tooltip .row {
+  display: flex;
+  justify-content: space-between;
+}
+.tooltip .row:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
 }
 .hide-pct {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
 }
 </style>
 </head>
@@ -199,7 +211,20 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
         // pred_remain
         // pred_no_deal
         // pred_deal
-        .html(``);
+        .html(`
+        <div class='row'>
+          <div>Sex</div>
+          <div>
+          ${datum.sex}
+          </div>
+        </div>
+        <div class='row'>
+          <div>Pred Remain</div>
+          <div>
+          ${datum.pred_remain}<span></span>
+          </div>
+        </div>
+        `);
     }
 
     function mouseleft() {

@@ -26,7 +26,7 @@
   box-shadow: 0 0 4px rgba(0,0,0,.1);
   padding: 10px 8px;
   font-size: 14px;
-  width: 100px;
+  width: 200px;
 }
 </style>
 </head>
@@ -78,7 +78,10 @@ svg.append('rect')
 function mousemoved() {
   const [x, y] = d3.mouse(svg.node());
 
-  d3.select('.tooltip').text(`${x}, ${y}`)
+  d3.select('.tooltip').style('visibility', 'visible')
+  .style('left', `${x}px`)
+  .style('top', `${y}px`).text(`${x}, ${y}`)
+
     // how to show and hide our tooltip?
     // we can use the css visibility property
 }

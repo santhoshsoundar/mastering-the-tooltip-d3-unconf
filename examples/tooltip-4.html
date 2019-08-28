@@ -159,6 +159,10 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
     // https://stackoverflow.com/questions/20916953/get-distance-between-two-points-in-canvas
     function getDistance(datum, mx, my) {
       // tip: x1 will be our datum.x and x2, our mx
+      var a = datum.x - mx;
+      var b = datum.y - my;
+      return Math.sqrt( a*a + b*b );
+
     }
 
     // this function will now only find our point
@@ -174,7 +178,9 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
       // if we find a point, what do we do?
       if (idx !== null) {
         // call getDistance to obstain the distance first
-        // ...
+        const distance  = getDistance(flat[idx], mx, my)
+
+        return distance * threshold * highlight(flat[idx], mx, my) * mouseleft;
 
         // and now check that the point is inside our threshold
         // we can use a ternary to either show or hide the tooltip

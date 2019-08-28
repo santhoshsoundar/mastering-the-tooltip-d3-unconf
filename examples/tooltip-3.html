@@ -27,7 +27,7 @@
   box-shadow: 0 0 4px rgba(0,0,0,.1);
   padding: 10px 8px;
   font-size: 14px;
-  width: 100px;
+  width: 140px;
 }
 </style>
 </head>
@@ -113,6 +113,11 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
     // and directly pass two data acccesors after that
     // const delaunay = d3.Delaunay...
 
+    // scatter circle hover
+
+    // const delaunay = d3.Delaunay.form(flat, d=> x(d.pred_remain), d=>y(d.age_bucket));
+    const delaunay = d3.Delaunay.from(flat, d => d.x, d => d.y);
+
     svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0, ${height})`)
@@ -147,16 +152,16 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
     
     // let's append our circle for hovering here
     // for example we could give no fill and a black stroke
-    // svg.append('circle')
-      // .attr('class', 'hover-circle')
-      // ...
+    svg.append('circle')
+      .attr('class', 'hover-circle')
+      // .style()
 
-    // svg.append('rect')
-    //   .attr('fill', 'transparent')
-    //   .attr('width', width)
-    //   .attr('height', height)
-    //   .on('mousemove', mousemoved)
-    //   .on('mouseleave', mouseleft);
+    svg.append('rect')
+      .attr('fill', 'transparent')
+      .attr('width', width)
+      .attr('height', height)
+      .on('mousemove', mousemoved)
+      .on('mouseleave', mouseleft);
 
     function mousemoved() {
       const [mx, my] = d3.mouse(svg.node());
@@ -164,23 +169,29 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
       // let's find our point!
       // same api as d3-voronoi but we get an index
       // ...
+      const idx = delaunay.find(my,mx, 0)
       
       // we need to reset the tooltip if we cannot find the point
       // ...
+      if(!idx) return mouseleft();
 
       // getting the point
       // remember that we have an index
       // ...
+      const datum = dlat[idx];
 
       // let's paint the circle here
       // we need to make it visible first
       // and set cx, cy and radius
-      // svg.select('.hover-circle')
-      // ...
+      svg.select('.hover-circle')
+      .style('visibility', 'visible')
+      .attr('cx', datum.x)
+      .attr('cy', datum.y)
 
       // aaand let's fill our tooltip
       // we can use the pred_remain variable
-      // d3.select('.tooltip')
+      d3.select('.tooltip')
+      .text(`remain support ${ft(datum)}`)
       //   ...
     }
 

@@ -105,7 +105,9 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
     // let's write our scale here
     // the domain needs to be the chart width
     // and the range is the tooltip width
-    const xCounter = d3.scaleLinear();
+    const xCounter = d3.scaleLinear()
+    .domain([0, width])
+    .range([0, 250]);
 
     const sexText = d3.scaleOrdinal()
       .domain(["Male", "Female"])
@@ -228,7 +230,7 @@ d3.csv('/data/brexit_profiles.csv', d3.autoType)
         // add the counter scale here
         // this scale is fed with our mouse position
         // it works by substracting the value from it
-        .style('left', `${mx}px`)
+        .style('left', `${mx - xCounter(mx)}px`)
         .style('top', `${my + 40}px`)
         .html(`A ${datum.age_bucket} year old ${sexText(datum.sex)} who ${remainText(datum.pred_remain)},
           earns ${incomeText(datum.inc_bucket)},
